@@ -1,6 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+
+// db and authenticateUser
 import connectDB from "./db/connect.js";
+
+// routers
+import authRouter from "./routes/authRoutes.js";
+import jobsRouter from "./routes/jobsRoutes.js";
 
 // middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
@@ -11,9 +17,14 @@ const app = express();
 // Now it's will be looking for dotenv file in the root
 dotenv.config();
 
+app.use(express.json());
+
 app.get("/", (req, res, next) => {
   res.send("Welcome!");
 });
+
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/jobs", jobsRouter);
 
 // app.use() => for all the http methods - post/patch/get and so on
 app.use(notFoundMiddleware);
