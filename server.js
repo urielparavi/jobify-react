@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
+import morgan from "morgan";
 // db and authenticateUser
 import connectDB from "./db/connect.js";
 
@@ -16,6 +17,11 @@ const app = express();
 
 // Now it's will be looking for dotenv file in the root
 dotenv.config();
+
+if (process.env.NODE_ENV !== "production") {
+  // middleware that show us the route we're hitting, method, status code to help us
+  app.use(morgan("dev"));
+}
 
 app.use(express.json());
 
